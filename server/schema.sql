@@ -20,9 +20,10 @@ DROP TABLE IF EXISTS `messages`;
     
 CREATE TABLE `messages` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
-  `body` VARCHAR(128) NULL DEFAULT NULL,
+  `text` VARCHAR(128) NULL DEFAULT NULL,
   `room` INTEGER(2) NOT NULL DEFAULT 1,
   `user` INTEGER(10) NOT NULL,
+  `createdAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`, `room`, `user`)
 ) COMMENT 'All the stupid things people say';
 
@@ -47,8 +48,8 @@ CREATE TABLE `users` (
 DROP TABLE IF EXISTS `rooms`;
     
 CREATE TABLE `rooms` (
-  `id` INTEGER NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(20) NOT NULL,
+  `id` INTEGER DEFAULT 1,
+  `name` VARCHAR(20) DEFAULT 'lobby',
   PRIMARY KEY (`id`)
 ) COMMENT 'The places they do their dirty deeds';
 
