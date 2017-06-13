@@ -21,8 +21,14 @@ module.exports = {
         let pair = tuple.split('=');
         queries[pair[0]] = pair[1];
       });
-      res.end();
-      models.messages.get(queries);
+      models.messages.get(queries, (err, results) => {
+        if (err) { 
+          res.status(500).send('Database ERROR', err);
+        } else {
+          res.send(JSON.stringify({Results: results}));
+          res.end();
+        }
+      });
     }, // a function which handles a get request for all messages
     post: function (req, res) {
       // get the username from the query string
