@@ -15,7 +15,8 @@ module.exports = {
       // get room from query string
       // TBD: get the sort parameter from the request body
       //      get max messages from the request body
-      const queryStrings = url.parse(req.url).query.split('&');
+      const query = url.parse(req.url).query;
+      const queryStrings = query ? query.split('&') : [];
       const queries = {};
       queryStrings.forEach((tuple) => {
         let pair = tuple.split('=');

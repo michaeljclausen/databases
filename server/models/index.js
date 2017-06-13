@@ -11,7 +11,7 @@ module.exports = {
       //    room
       // return SELECT * in messages table which match room=roomname
       // queries will have USERNAME and/or ROOM set
-      const room = (queries.roomname) ? queries.roomname : 'lobby';
+      const room = (queries && queries.roomname) ? queries.roomname : 'lobby';
       const queryString = `SELECT * from messages m INNER JOIN rooms r ON r.id = m.room where r.name = "${room}";`;
       console.log('in model GET: room is ', room);
 //      db.connection.connect();
