@@ -23,8 +23,7 @@ var user = db.define('user', {
 var message = db.define('message', {
   user: Sequelize.INTEGER,
   text: Sequelize.STRING,
-  room: Sequelize.INTEGER,
-  createdAt: Sequelize.DATE
+  room: Sequelize.INTEGER
 });
 
 var room = db.define('room', {
@@ -37,7 +36,7 @@ var room = db.define('room', {
 user.sync()
   .then(function() {
     // Now instantiate an object and save it:
-    return user.create({name: 'Jean Valjean Van Damme 2'});
+    return user.create({name: 'Jean Valjean Van Damme 3'});
   })
   .then(function() {
     // Retrieve objects from the database:

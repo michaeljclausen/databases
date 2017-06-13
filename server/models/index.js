@@ -1,7 +1,20 @@
 var db = require('../db');
+var Sequelize = require('sequelize');
 
 db.connection.connect();
 
+var user = db.sequelize.define('user', {
+  name: Sequelize.STRING
+});
+var message = db.sequelize.define('message', {
+  user: Sequelize.INTEGER,
+  text: Sequelize.STRING,
+  room: Sequelize.INTEGER
+});
+var room = db.sequelize.define('room', {
+  name: Sequelize.STRING
+});
+  
 const sendSQLCommand = function(SQLCommand, callback) {
   db.connection.query(SQLCommand, (error, results) => {
     if (error && error.errno !== 1062) { // 1062 : ER_DUP_ENTRY which is okay
@@ -56,11 +69,18 @@ module.exports = {
         callback(error, results);
       });
     },
-    post: function (user, callback) {
-      let addUserCmd = `INSERT INTO users (name) values("${user.username}");`;      
-      sendSQLCommand(addUserCmd, (error, results) => {
-        callback(error, results);
-      });
+    post: function (userObj, callback) {
+//      let addUserCmd = `INSERT INTO users (name) values("${user.username}");`;      
+//      sendSQLCommand(addUserCmd, (error, results) => {
+//        callback(error, results);
+//      });
+      console.log(user);
+      user.sync()
+      .then(() => user.create({name: userObj.username}))
+        .catch((err) => {
+          console.error(err);
+          db.close();
+        });
     }
   }
 };
