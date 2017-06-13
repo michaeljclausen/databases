@@ -1,4 +1,4 @@
-/*CREATE DATABASE chat;*/
+CREATE DATABASE chat;
 
 USE chat;
 
@@ -48,7 +48,7 @@ CREATE TABLE `users` (
 DROP TABLE IF EXISTS `rooms`;
     
 CREATE TABLE `rooms` (
-  `id` INTEGER DEFAULT 1,
+  `id` INTEGER NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(20) DEFAULT 'lobby',
   PRIMARY KEY (`id`)
 ) COMMENT 'The places they do their dirty deeds';

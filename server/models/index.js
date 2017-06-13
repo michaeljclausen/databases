@@ -2,6 +2,15 @@ var db = require('../db');
 
 db.connection.connect();
 
+const sendSQLCommand = function(SQLCommand, callback) {
+  db.connection.query(SQLCommand, (error, results) => {
+    if (error) {
+      console.log('DB Error: ', error);
+    }
+    callback(error, results);
+  });
+};
+
 module.exports = {
   messages: {
     get: function (queries, callback) {
@@ -23,9 +32,44 @@ module.exports = {
 //        db.connection.end();
       });
     }, // a function which produces all the messages
-    post: function (message) {
+    post: function (message, callback) {
       // inputs: username, roomname, text
-      // 
+      // check if the user exists
+      let { username, roomname, text } = message;
+      console.log(`GOT: user: ${username} room: ${roomname} text: ${text}`);
+      let queryString = `SELECT * from users where users.name = "${username}"`;
+      sendSQLCommand(queryString, (error, results) => {
+        if (error) {
+          callback(error);
+        }
+        if (results.length === 0) {
+          // do insert
+        }
+        // set user id from results
+        let queryString = `SELECT * from rooms where rooms.name = "${roomname}"`;
+        sendSQLCommand(queryString, (error, results) => {
+          if (error) {
+            callback(error);
+          }
+          if (results.length === 0) {
+            // do insert of room
+          }
+          // set room id from results
+          let insertCommand = 
+            `INSERT INTO messages (text, room, user) values ("${message.text}", 
+              (select rooms.id from rooms where rooms.name = "${message.roomname}"),
+                (select users.id from users where users.name = "${message.username}"))`;
+          sendSQLCommand(insertCommand, (error) => {
+            callback(error);
+          });  
+        });
+      });
+          // if not add record of user
+          // check if room exists
+            // if not add record of room
+            // add record of message
+            
+            // callback(error, results);
     } // a function which can be used to insert a message into the database
   },
 

@@ -1,11 +1,11 @@
 var models = require('../models');
 var url = require('url');
 
-const getBody = (req, res) => {
+const getBody = (req, res, cb) => {
   let body = '';
   req.on('data', (chunk) => body += chunk);
   req.on('end', () => {
-    return body;
+    cb(body);
   });
 };
 
@@ -38,9 +38,15 @@ module.exports = {
       // calls model.post() with the above
       // send appropriate response code
       const reqPath = url.parse(req.url);
-      let body = getBody(req, res);
-      res.end();
-      models.messages.post(JSON.parse(body));
+      let body = getBody(req, res, (body) => {
+        console.log(`Controller: got request body of: ${body}`);
+        models.messages.post(JSON.parse(body), (err) => {
+          if (err) {
+            res.status(500).send('Database ERROR', err);
+          }
+          res.end();
+        });
+      });
     } // a function which handles posting a message to the database
   },
 
