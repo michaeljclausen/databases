@@ -72,13 +72,20 @@ ALTER TABLE `messages` ADD FOREIGN KEY (room) REFERENCES `rooms` (`id`);
 -- Test Data
 -- ---
 
--- INSERT INTO `messages` (`id`,`body`,`room`,`user`) VALUES
--- ('','','','');
--- INSERT INTO `users` (`id`,`name`) VALUES
--- ('','');
--- INSERT INTO `rooms` (`id`,`name`) VALUES
--- ('','');
-
+INSERT INTO `users` (`id`,`name`) VALUES (1, 'mike');
+INSERT INTO `users` (`id`,`name`) VALUES (2, 'azmeer');
+INSERT INTO `users` (`id`,`name`) VALUES (3, 'joethatbastard');
+INSERT INTO `rooms` (`id`,`name`) VALUES (1, 'lobby');
+INSERT INTO `rooms` (`id`,`name`) VALUES (2, 'patio');
+INSERT INTO `rooms` (`id`,`name`) VALUES (3, 'funhouse');
+INSERT INTO `rooms` (`id`,`name`) VALUES (4, 'xxxlingeriepatio');
+INSERT INTO `messages` (`id`,`text`,`room`,`user`) VALUES (1,'yo', 1, 1);
+INSERT INTO `messages` (`id`,`text`,`room`,`user`) VALUES (2,'hi', 1, 1);
+INSERT INTO `messages` (`id`,`text`,`room`,`user`) VALUES (3,'hi', 2, 2);
+INSERT INTO `messages` (`id`,`text`,`room`,`user`) VALUES (4,'uh', 2, 2);
+INSERT INTO `messages` (`id`,`text`,`room`,`user`) VALUES (5,'yay', 3, 2);
+INSERT INTO `messages` (`id`,`text`,`room`,`user`) VALUES (6,'oohlala', 4, 3);
+INSERT INTO `messages` (`id`,`text`,`room`,`user`) VALUES (7,'wahwah', 4, 3);
 
 /*  Execute this file from the command line by typing:
  *    mysql -u root < server/schema.sql
