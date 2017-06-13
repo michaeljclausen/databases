@@ -4,30 +4,42 @@
  */
 
 var Sequelize = require('sequelize');
-var db = new Sequelize('chatter', 'root', '');
+var db = new Sequelize('chat', 'root', 'plantlife', {
+  host: 'localhost',
+  dialect: 'mysql'
+  // pool: { max: 5, min: 0, idle: 1000 }
+});
+console.log('initialized new db');
 /* TODO this constructor takes the database name, username, then password.
  * Modify the arguments if you need to */
 
 /* first define the data structure by giving property names and datatypes
  * See http://sequelizejs.com for other datatypes you can use besides STRING. */
-var User = db.define('User', {
-  username: Sequelize.STRING
+
+var user = db.define('user', {
+  name: Sequelize.STRING
 });
 
-var Message = db.define('Message', {
-  userid: Sequelize.INTEGER,
+var message = db.define('message', {
+  user: Sequelize.INTEGER,
   text: Sequelize.STRING,
-  roomname: Sequelize.STRING
+  room: Sequelize.INTEGER,
+  createdAt: Sequelize.DATE
+});
+
+var room = db.define('room', {
+  name: Sequelize.STRING
 });
 
 /* Sequelize comes with built in support for promises
  * making it easy to chain asynchronous operations together */
-User.sync()
+
+user.sync()
   .then(function() {
     // Now instantiate an object and save it:
-    return User.create({username: 'Jean Valjean'});
-  })
-  .then(function() {
+    return user.create({name: 'Jean Valjean'});
+  });
+/*  .then(function() {
     // Retrieve objects from the database:
     return User.findAll({ where: {username: 'Jean Valjean'} });
   })
@@ -42,3 +54,4 @@ User.sync()
     console.error(err);
     db.close();
   });
+*/
