@@ -1,8 +1,6 @@
 var db = require('../db');
 var Sequelize = require('sequelize');
 
-db.connection.connect();
-
 var user = db.sequelize.define('user', {
   name: Sequelize.STRING
 });
@@ -71,9 +69,8 @@ module.exports = {
     },
     post: function (userObj, callback) {
       user.sync()
-      .then(() => { user.create({name: userObj.username}); })
-      .then(() => { callback(); })
-//      .then(() => { db.sequelize.close(); })
+      .then(() => user.create({name: userObj.username}) )
+      .then(() => callback())
       .catch((err) => {
         console.error(err);
         db.sequelize.close();

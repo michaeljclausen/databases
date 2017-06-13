@@ -67,7 +67,7 @@ module.exports = {
         console.log(`Controller: got request body of: ${body}`);
         models.users.post(JSON.parse(body), (err) => {
           if (err) {
-            res.status(500).send('Database ERROR', err);
+            res.status(500).send(err);
           }
           res.end();
         });
