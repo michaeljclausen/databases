@@ -37,7 +37,8 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(30) DEFAULT 'anonymous',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY (`name`)
 ) COMMENT 'The crazy people who use our app';
 
 -- ---
@@ -50,7 +51,8 @@ DROP TABLE IF EXISTS `rooms`;
 CREATE TABLE `rooms` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(20) DEFAULT 'lobby',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY (`name`)
 ) COMMENT 'The places they do their dirty deeds';
 
 -- ---
