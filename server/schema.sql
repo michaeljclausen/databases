@@ -36,7 +36,7 @@ DROP TABLE IF EXISTS `users`;
     
 CREATE TABLE `users` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(30) NOT NULL,
+  `name` VARCHAR(30) DEFAULT 'anonymous',
   PRIMARY KEY (`id`)
 ) COMMENT 'The crazy people who use our app';
 
