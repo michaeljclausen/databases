@@ -9,7 +9,7 @@ var db = new Sequelize('chat', 'root', 'plantlife', {
   dialect: 'mysql'
   // pool: { max: 5, min: 0, idle: 1000 }
 });
-console.log('initialized new db');
+
 /* TODO this constructor takes the database name, username, then password.
  * Modify the arguments if you need to */
 
@@ -37,15 +37,16 @@ var room = db.define('room', {
 user.sync()
   .then(function() {
     // Now instantiate an object and save it:
-    return user.create({name: 'Jean Valjean'});
-  });
-/*  .then(function() {
+    return user.create({name: 'Jean Valjean Van Damme 2'});
+  })
+  .then(function() {
     // Retrieve objects from the database:
-    return User.findAll({ where: {username: 'Jean Valjean'} });
+//    return user.findAll({ where: {name: 'Jean Valjean'} });
+    return user.findAll();
   })
   .then(function(users) {
     users.forEach(function(user) {
-      console.log(user.username + ' exists');
+      console.log(user.name + ' exists');
     });
     db.close();
   })
@@ -54,4 +55,3 @@ user.sync()
     console.error(err);
     db.close();
   });
-*/
