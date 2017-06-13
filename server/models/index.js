@@ -50,8 +50,18 @@ module.exports = {
 
   users: {
     // Ditto as above.
-    get: function () {},
-    post: function () {}
+    get: function (callback) {
+      const queryString = 'SELECT users.name from users;';
+      sendSQLCommand(queryString, (error, results) => {
+        callback(error, results);
+      });
+    },
+    post: function (user, callback) {
+      let addUserCmd = `INSERT INTO users (name) values("${user.username}");`;      
+      sendSQLCommand(addUserCmd, (error, results) => {
+        callback(error, results);
+      });
+    }
   }
 };
 

@@ -52,8 +52,27 @@ module.exports = {
 
   users: {
     // Ditto as above
-    get: function (req, res) {},
-    post: function (req, res) {}
+    get: function (req, res) {
+      models.users.get((err, results) => {
+        if (err) { 
+          res.status(500).send('Database ERROR', err);
+        } else {
+          res.send(JSON.stringify({Results: results}));
+          res.end();
+        }
+      });
+    },
+    post: function (req, res) {
+      let body = getBody(req, res, (body) => {
+        console.log(`Controller: got request body of: ${body}`);
+        models.users.post(JSON.parse(body), (err) => {
+          if (err) {
+            res.status(500).send('Database ERROR', err);
+          }
+          res.end();
+        });
+      });
+    }
   }
 };
 
