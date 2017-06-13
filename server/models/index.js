@@ -1,5 +1,7 @@
 var db = require('../db');
 
+db.connection.connect();
+
 module.exports = {
   messages: {
     get: function (queries, callback) {
@@ -12,13 +14,13 @@ module.exports = {
       const room = (queries.roomname) ? queries.roomname : 'lobby';
       const queryString = `SELECT * from messages m INNER JOIN rooms r ON r.id = m.room where r.name = "${room}";`;
       console.log('in model GET: room is ', room);
-      db.connection.connect();
+//      db.connection.connect();
       db.connection.query(queryString, (error, results, fields) => {
         if (error) {
           console.log('DB ERROR :', error);
         } 
         callback(error, results);
-        db.connection.end();
+//        db.connection.end();
       });
     }, // a function which produces all the messages
     post: function (message) {
