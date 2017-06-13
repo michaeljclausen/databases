@@ -37,16 +37,17 @@ module.exports = {
       // check if the user exists
       let { username, roomname, text } = message;
       console.log(`GOT: user: ${username} room: ${roomname} text: ${text}`);
-      let queryString = `SELECT * from users where users.name = "${username}"`;
+      let queryString = `SELECT * from users where users.name = "${username}";`;
       sendSQLCommand(queryString, (error, results) => {
         if (error) {
           callback(error);
         }
         if (results.length === 0) {
           // do insert
+          let queryString = `INSERT into users (name) values ("${username}");`;
         }
         // set user id from results
-        let queryString = `SELECT * from rooms where rooms.name = "${roomname}"`;
+        let queryString = `SELECT * from rooms where rooms.name = "${roomname}";`;
         sendSQLCommand(queryString, (error, results) => {
           if (error) {
             callback(error);
@@ -58,7 +59,7 @@ module.exports = {
           let insertCommand = 
             `INSERT INTO messages (text, room, user) values ("${message.text}", 
               (select rooms.id from rooms where rooms.name = "${message.roomname}"),
-                (select users.id from users where users.name = "${message.username}"))`;
+                (select users.id from users where users.name = "${message.username}"));`;
           sendSQLCommand(insertCommand, (error) => {
             callback(error);
           });  
