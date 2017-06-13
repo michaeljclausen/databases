@@ -33,12 +33,30 @@ module.exports = {
       //    room
       // return SELECT * in messages table which match room=roomname
       // queries will have USERNAME and/or ROOM set
-      const room = (queries && queries.roomname) ? queries.roomname : 'lobby';
-      const queryString = `SELECT * from messages m INNER JOIN rooms r ON r.id = m.room where r.name = "${room}";`;
+      const roomname = (queries && queries.roomname) ? queries.roomname : 'lobby';
+      // select the messages.text users.name and rooms.name
+      const queryString = `SELECT rooms.name as roomname, messages.text, users.name as username
+                            FROM messages 
+                              INNER JOIN users ON messages.user = users.id
+                              INNER JOIN rooms ON messages.room = rooms.id 
+                                WHERE rooms.name = "${roomname}"`;
       console.log('handling GET: room is ', room);
       sendSQLCommand(queryString, (error, results) => {
+        console.log('handling GET: got the following: ', results);
         callback(error, results);
       });
+/*      
+      const roomname = (queries && queries.roomname) ? queries.roomname : 'lobby';
+      message.sync()
+      .then(() => message.findAll({ attributes: ['text'], 
+        where: { room: }
+       }))
+      .then((users) => callback(null, users))
+      .catch((err) => {
+        console.error(err);
+        callback(err);
+      });
+*/    
     }, 
     post: function (message, callback) {
       let { username, roomname, text } = message;
