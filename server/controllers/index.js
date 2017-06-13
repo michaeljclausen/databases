@@ -55,7 +55,7 @@ module.exports = {
     get: function (req, res) {
       models.users.get((err, results) => {
         if (err) { 
-          res.status(500).send('Database ERROR', err);
+          res.status(500).send(err);
         } else {
           res.send(JSON.stringify({Results: results}));
           res.end();

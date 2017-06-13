@@ -62,9 +62,12 @@ module.exports = {
   users: {
     // Ditto as above.
     get: function (callback) {
-      const queryString = 'SELECT users.name from users;';
-      sendSQLCommand(queryString, (error, results) => {
-        callback(error, results);
+      user.sync()
+      .then(() => user.findAll({ attributes: ['name'] }))
+      .then((users) => callback(null, users))
+      .catch((err) => {
+        console.error(err);
+        callback(err);
       });
     },
     post: function (userObj, callback) {
@@ -73,7 +76,6 @@ module.exports = {
       .then(() => callback())
       .catch((err) => {
         console.error(err);
-        db.sequelize.close();
         callback(err);
       });
     }
