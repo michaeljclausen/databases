@@ -70,17 +70,15 @@ module.exports = {
       });
     },
     post: function (userObj, callback) {
-//      let addUserCmd = `INSERT INTO users (name) values("${user.username}");`;      
-//      sendSQLCommand(addUserCmd, (error, results) => {
-//        callback(error, results);
-//      });
-      console.log(user);
       user.sync()
-      .then(() => user.create({name: userObj.username}))
-        .catch((err) => {
-          console.error(err);
-          db.close();
-        });
+      .then(() => { user.create({name: userObj.username}); })
+      .then(() => { callback(); })
+//      .then(() => { db.sequelize.close(); })
+      .catch((err) => {
+        console.error(err);
+        db.sequelize.close();
+        callback(err);
+      });
     }
   }
 };
