@@ -24,17 +24,12 @@ module.exports = {
       // queries will have USERNAME and/or ROOM set
       const room = (queries && queries.roomname) ? queries.roomname : 'lobby';
       const queryString = `SELECT * from messages m INNER JOIN rooms r ON r.id = m.room where r.name = "${room}";`;
-      console.log('in model GET: room is ', room);
-      db.connection.query(queryString, (error, results, fields) => {
-        if (error) {
-          console.log('DB ERROR :', error);
-        } 
+      console.log('handling GET: room is ', room);
+      sendSQLCommand(queryString, (error, results) => {
         callback(error, results);
       });
-    }, // a function which produces all the messages
+    }, 
     post: function (message, callback) {
-      // inputs: username, roomname, text
-      // check if the user exists
       let { username, roomname, text } = message;
       console.log(`GOT: user: ${username} room: ${roomname} text: ${text}`);
       let addUserCmd = `INSERT INTO users (name) values("${username}");`;
@@ -44,31 +39,13 @@ module.exports = {
           (select rooms.id from rooms where rooms.name = "${message.roomname}"),
             (select users.id from users where users.name = "${message.username}"));`;
       sendSQLCommand(addUserCmd, (error, results) => {
-        console.log('Woo! In POST: sending addUserCmd with results:', results);
         sendSQLCommand(addRoomCmd, (error, results) => {
-          console.log('Woo! In POST: sending addRoomCmd with results:', results);
           sendSQLCommand(addMessageCmd, (error, results) => {
-            console.log('Woo! In POST: sending addMessageCmd with results:', results);
             callback();
           });
         });
       });
-
-//      sendSQLCommand(queryString, (error, results) => {
-///        send2ndSQLCommand(2ndQueryString, (error, results) => {
-//          send3rdSQLCommand(3rdQueryString, (error, results) => {
-//            callback(error);
-//        })
-//      }
-        // set user id from results
-
-          // if not add record of user
-          // check if room exists
-            // if not add record of room
-            // add record of message
-            
-            // callback(error, results);
-    } // a function which can be used to insert a message into the database
+    } 
   },
 
   users: {
